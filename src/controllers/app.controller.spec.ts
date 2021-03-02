@@ -22,8 +22,12 @@ describe('AppController', () => {
       username: 'john',
       password: 'changeme',
     };
-    it('should return the access token', () => {
+    it('should perform login and get access token', () => {
       expect(appController.login({ user }));
+    });
+
+    it('should get profile informations', () => {
+      expect(appController.getProfile({}));
     });
   });
 });
