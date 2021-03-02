@@ -1,22 +1,29 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { AppController } from '../controllers/app.controller';
+import { AppService } from '../services/app.service';
+import { UsersService } from '../services/users.service';
+import { AuthModule } from '../modules/auth.module';
 
-// describe('AppController', () => {
-//   let appController: AppController;
+describe('AppController', () => {
+  let appController: AppController;
 
-//   beforeEach(async () => {
-//     const app: TestingModule = await Test.createTestingModule({
-//       controllers: [AppController],
-//       providers: [AppService],
-//     }).compile();
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      imports: [AuthModule],
+      controllers: [AppController],
+      providers: [AppService, UsersService],
+    }).compile();
 
-//     appController = app.get<AppController>(AppController);
-//   });
+    appController = app.get<AppController>(AppController);
+  });
 
-//   describe('root', () => {
-//     it('should return "Hello World!"', () => {
-//       expect(appController.getHello()).toBe('Hello World!');
-//     });
-//   });
-// });
+  describe('root', () => {
+    const user = {
+      username: 'john',
+      password: 'changeme',
+    };
+    it('should return the access token', () => {
+      expect(appController.login({ user }));
+    });
+  });
+});
